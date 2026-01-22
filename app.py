@@ -5,14 +5,12 @@ from streamlit_folium import folium_static
 
 st.set_page_config(page_title="Women Safety Indicator", layout="wide")
 
-# Load datasets
 state_df = pd.read_csv("data/state_crime_summary.csv")
 full_df = pd.read_csv("data/crime_data.csv")
 
 state_df["State"] = state_df["State"].str.upper()
 full_df["State"] = full_df["State"].str.upper()
 
-# City to State Mapping
 city_to_state = {
     "HYDERABAD": "TELANGANA",
     "MUMBAI": "MAHARASHTRA",
@@ -26,7 +24,6 @@ city_to_state = {
     "LUCKNOW": "UTTAR PRADESH"
 }
 
-# Header
 st.markdown("""
 <h1>🚨 Women Safety Indicator</h1>
 <p style='font-size:18px; color:gray;'>
@@ -35,7 +32,6 @@ AI-powered system to assess location safety for women in India
 <hr>
 """, unsafe_allow_html=True)
 
-# Input + Output
 col1, col2 = st.columns(2)
 
 with col1:
@@ -56,7 +52,7 @@ with col2:
             row = result.iloc[0]
             risk = row["risk_level"]
 
-            # Dynamic safety score based on crime volume
+           
             max_crime = state_df["total_crime"].max()
             safety_score = int(100 - (row["total_crime"] / max_crime) * 100)
 
@@ -67,7 +63,7 @@ with col2:
             else:
                 dot_color = "green"
 
-    # Output heading with dot
+    
     st.markdown(f"""
     <div style="display:flex; align-items:center;">
         <h3 style="margin-right:10px;">📊 Safety Report</h3>
@@ -93,7 +89,7 @@ with col2:
             st.markdown("#### 🔍 Crime Breakdown")
             st.write(row[['Rape', 'K&A', 'DD', 'AoW', 'AoM', 'DV', 'WT']])
 
-            # Trend analysis (Upgrade B)
+          
             past = full_df[(full_df["State"] == state) & (full_df["Year"] <= 2010)]
             recent = full_df[(full_df["State"] == state) & (full_df["Year"] >= 2018)]
 
@@ -127,7 +123,7 @@ with col2:
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
-# Big Map Section
+
 st.markdown("## 🌍 India Safety Risk Map")
 
 state_coords = {
